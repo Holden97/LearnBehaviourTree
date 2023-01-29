@@ -29,13 +29,15 @@ namespace BehaviourTreeUtility
             tree = new BehaviourTree();
 
             Sequence steal = new Sequence("Steal Something");
-            Leaf goToDiamond = new Leaf("Go To Diamond", GoToDiamond);
+            Selector gotoDoor = new Selector("Go To Door");
             Leaf goToBackDoor = new Leaf("Go To Back Door", GoToBackDoor);
             Leaf goToFrontDoor = new Leaf("Go To Front Door", GoToFrontDoor);
+            gotoDoor.AddChild(goToBackDoor);
+            gotoDoor.AddChild(goToFrontDoor);
+            Leaf goToDiamond = new Leaf("Go To Diamond", GoToDiamond);
             Leaf goToVan = new Leaf("Go To Van", GoToVan);
 
-            steal.AddChild(goToDiamond);
-            steal.AddChild(goToBackDoor);
+            steal.AddChild(gotoDoor);
             steal.AddChild(goToFrontDoor);
             steal.AddChild(goToVan);
 
