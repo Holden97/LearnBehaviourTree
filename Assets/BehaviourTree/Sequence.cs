@@ -15,23 +15,24 @@ namespace BehaviourTreeUtility
         public override Status Process()
         {
             Status childStatus = children[currentChild].Process();
-            if (childStatus == Status.RUNNING)
-            {
-                return Status.RUNNING;
-            }
-            if (childStatus == Status.FAILURE)
+            if (childStatus == Status.RUNNING || childStatus == Status.FAILURE)
             {
                 return childStatus;
             }
+            else
+            {
+                currentChild++;
+            }
 
-            currentChild++;
             if (currentChild >= children.Count)
             {
                 currentChild = 0;
                 return Status.SUCCESS;
             }
-
-            return Status.RUNNING;
+            else
+            {
+                return Status.RUNNING;
+            }
         }
     }
 }

@@ -9,7 +9,8 @@ namespace BehaviourTreeUtility
     {
         BehaviourTree tree;
         public GameObject diamond;
-        public GameObject door;
+        public GameObject backDoor;
+        public GameObject frontDoor;
         public GameObject van;
         NavMeshAgent agent;
 
@@ -29,11 +30,13 @@ namespace BehaviourTreeUtility
 
             Sequence steal = new Sequence("Steal Something");
             Leaf goToDiamond = new Leaf("Go To Diamond", GoToDiamond);
-            Leaf goToDoor = new Leaf("Go To Door", GoToDoor);
+            Leaf goToBackDoor = new Leaf("Go To Back Door", GoToBackDoor);
+            Leaf goToFrontDoor = new Leaf("Go To Front Door", GoToFrontDoor);
             Leaf goToVan = new Leaf("Go To Van", GoToVan);
 
             steal.AddChild(goToDiamond);
-            steal.AddChild(goToDoor);
+            steal.AddChild(goToBackDoor);
+            steal.AddChild(goToFrontDoor);
             steal.AddChild(goToVan);
 
             tree.AddChild(steal);
@@ -48,9 +51,14 @@ namespace BehaviourTreeUtility
             return GoToLocation(diamond.transform.position);
         }
 
-        public Node.Status GoToDoor()
+        public Node.Status GoToBackDoor()
         {
-            return GoToLocation(door.transform.position);
+            return GoToLocation(backDoor.transform.position);
+        }
+
+        public Node.Status GoToFrontDoor()
+        {
+            return GoToLocation(frontDoor.transform.position);
         }
 
         public Node.Status GoToVan()

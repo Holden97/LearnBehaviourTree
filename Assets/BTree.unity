@@ -2003,7 +2003,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   diamond: {fileID: 1550492363}
-  door: {fileID: 919599686}
+  backDoor: {fileID: 919599686}
+  frontDoor: {fileID: 1791870521}
   van: {fileID: 875171227}
   state: 0
 --- !u!1 &716268924
