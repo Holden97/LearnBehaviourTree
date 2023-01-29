@@ -11,6 +11,7 @@ namespace BehaviourTreeUtility
 
         public override Status Process()
         {
+            Debug.Log("[currentChild]:" + name);
             if (ProcessMethod != null)
                 return ProcessMethod();
             return Status.FAILURE;
