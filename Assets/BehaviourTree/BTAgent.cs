@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Math.Sort;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -55,6 +56,7 @@ namespace BehaviourTreeUtility
         protected void Update()
         {
             treeStatus = tree.Process();
+
         }
     }
 }
