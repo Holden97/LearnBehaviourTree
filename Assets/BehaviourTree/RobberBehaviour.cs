@@ -5,31 +5,19 @@ using UnityEngine.AI;
 
 namespace BehaviourTreeUtility
 {
-    public class RobberBehaviour : MonoBehaviour
+    public class RobberBehaviour : BTAgent
     {
-        BehaviourTree tree;
         public GameObject diamondPlinth;
         public GameObject backDoor;
         public GameObject frontDoor;
         public GameObject van;
 
-        [Range(0, 1000)] public int money = 800;
-        NavMeshAgent agent;
+        [Range(0, 1000)]
+        public int money = 800;
 
-        public enum ActionState
+        protected override void CreteTree(BehaviourTree tree)
         {
-            IDLE,
-            WORKING
-        }
-
-        public ActionState state = ActionState.IDLE;
-        Node.Status treeStatus = Node.Status.RUNNING;
-
-        private void Start()
-        {
-            agent = GetComponent<NavMeshAgent>();
-            tree = new BehaviourTree();
-
+            base.CreteTree(tree);
             Sequence steal = new Sequence("Steal Something");
             Selector gotoDoor = new Selector("Go To Door");
             Leaf goToBackDoor = new Leaf("Go To Back Door", GoToBackDoor);
@@ -47,12 +35,7 @@ namespace BehaviourTreeUtility
             steal.AddChild(goToDiamond);
             steal.AddChild(stealTheDiamond);
             steal.AddChild(goToVan);
-
             tree.AddChild(steal);
-
-            tree.PrintTree();
-            tree.Process();
-
         }
 
         public Node.Status GoToDiamond()
@@ -129,34 +112,6 @@ namespace BehaviourTreeUtility
             {
                 return s;
             }
-        }
-
-        Node.Status GoToLocation(Vector3 destination)
-        {
-            float distanceToTarget = Vector3.Distance(destination, transform.position);
-            if (state == ActionState.IDLE)
-            {
-                agent.SetDestination(destination);
-                state = ActionState.WORKING;
-            }
-            //pathEndPosition是SetDestination设置的GameObject的位置，而destination是agent最终要走到的目标点
-            //以此例来说，pathEndPosition是门正中央的位置，而destination是门下方人物可以到达的NavMesh上的某一点
-            else if (Vector3.Distance(agent.pathEndPosition, destination) >= 2)
-            {
-                state = ActionState.IDLE;
-                return Node.Status.FAILURE;
-            }
-            else if (distanceToTarget < 2)
-            {
-                state = ActionState.IDLE;
-                return Node.Status.SUCCESS;
-            }
-            return Node.Status.RUNNING;
-        }
-
-        private void Update()
-        {
-            treeStatus = tree.Process();
         }
     }
 }
