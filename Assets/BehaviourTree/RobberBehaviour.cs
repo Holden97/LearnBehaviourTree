@@ -40,8 +40,9 @@ namespace BehaviourTreeUtility
             gotoDoor.AddChild(goToBackDoor);
             Leaf goToDiamond = new Leaf("Go To Diamond", GoToDiamond);
             Leaf goToVan = new Leaf("Go To Van", GoToVan);
-
-            steal.AddChild(hasMoney);
+            Inverter invertMoney = new Inverter("Invert Money");
+            invertMoney.AddChild(hasMoney);
+            steal.AddChild(invertMoney);
             steal.AddChild(gotoDoor);
             steal.AddChild(goToDiamond);
             steal.AddChild(stealTheDiamond);
@@ -63,11 +64,11 @@ namespace BehaviourTreeUtility
         {
             if (money > 500)
             {
-                return Node.Status.FAILURE;
+                return Node.Status.SUCCESS;
             }
             else
             {
-                return Node.Status.SUCCESS;
+                return Node.Status.FAILURE;
             }
         }
 
